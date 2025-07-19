@@ -24,4 +24,4 @@ A beautiful, real-time Discord status page that displays your online presence, c
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/discord-status-page.git
+   git clone https://github.com/exophs/Status
