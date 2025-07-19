@@ -14,10 +14,17 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
     <style>
-      .sound-button {
+      .sound-controls {
         position: fixed;
         top: 20px;
         right: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        z-index: 1000;
+      }
+
+      .sound-button {
         background: rgba(44, 44, 44, 0.6);
         border: none;
         border-radius: 50%;
@@ -29,13 +36,52 @@
         align-items: center;
         justify-content: center;
         backdrop-filter: blur(10px);
-        z-index: 1000;
       }
 
       .sound-button:hover {
         background: rgba(44, 44, 44, 0.8);
       }
 
+      .volume-slider-container {
+        width: 0;
+        overflow: hidden;
+        transition: width 0.3s ease, opacity 0.3s ease;
+        opacity: 0;
+      }
+
+      .sound-controls:hover .volume-slider-container {
+        width: 100px;
+        opacity: 1;
+      }
+
+      .volume-slider {
+        width: 100%;
+        -webkit-appearance: none;
+        height: 5px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 5px;
+        outline: none;
+      }
+
+      .volume-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: white;
+        cursor: pointer;
+      }
+
+      .volume-slider::-moz-range-thumb {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: white;
+        cursor: pointer;
+      }
+
+      /* Rest of your existing CSS remains the same */
       body {
         display: flex;
         justify-content: center;
@@ -228,9 +274,22 @@
       Your browser does not support the audio element.
     </audio>
 
-    <button class="sound-button" id="sound-button">
-      <i class="fas fa-volume-mute"></i>
-    </button>
+    <div class="sound-controls">
+      <div class="volume-slider-container">
+        <input
+          type="range"
+          class="volume-slider"
+          id="volume-slider"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0.5"
+        />
+      </div>
+      <button class="sound-button" id="sound-button">
+        <i class="fas fa-volume-mute"></i>
+      </button>
+    </div>
 
     <div class="stars">
       <script>
@@ -271,7 +330,10 @@
     <script>
       const backgroundMusic = document.getElementById("background-music");
       const soundButton = document.getElementById("sound-button");
+      const volumeSlider = document.getElementById("volume-slider");
 
+      // Set initial volume
+      backgroundMusic.volume = volumeSlider.value;
       let isPlaying = false;
 
       const toggleMusic = () => {
@@ -290,6 +352,20 @@
         }
         isPlaying = !isPlaying;
       };
+
+      // Update volume when slider changes
+      volumeSlider.addEventListener("input", (e) => {
+        backgroundMusic.volume = e.target.value;
+        
+        // Update button icon based on volume level
+        if (e.target.value == 0) {
+          soundButton.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        } else if (e.target.value < 0.5) {
+          soundButton.innerHTML = '<i class="fas fa-volume-down"></i>';
+        } else {
+          soundButton.innerHTML = '<i class="fas fa-volume-up"></i>';
+        }
+      });
 
       soundButton.addEventListener("click", toggleMusic);
 
