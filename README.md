@@ -22,12 +22,10 @@ A beautiful, real-time Discord status page that displays your online presence, c
 
 ## Setup
 
-1. **Clone the repository**:
-   ```bash
-   1. First git clone https://github.com/exophs/Status.
+1. First git clone https://github.com/exophs/Status.
 
-   2. Second you have to join the Lanyard [Discord server](https://discord.gg/8NTS7FRFgu) so their bot can see your profile to display on the website.
+2. Second you have to join the Lanyard [Discord server](https://discord.gg/8NTS7FRFgu) so their bot can see your profile to display on the website.
 
-   3. Then you gotta change the "const DISCORD_USER_ID = "YOUR DISCORD ID HERE";".
+3. Then you gotta change the "const DISCORD_USER_ID = "YOUR DISCORD ID HERE";".
 
-   4. Then you're done, just host on any domain and its working, you can change the code to anything you'd like just reference back to me and this project.
+4. Then you're done, just host on any domain and its working, you can change the code to anything you'd like just reference back to me and this project.
