@@ -307,7 +307,7 @@
     <div class="container">
       <div class="status-box">
         <img src="" alt="Profile Picture" class="profile-picture" id="profile-picture" />
-        <p id="display-name">Loading penis...</p>
+        <p id="display-name">Loading display name...</p>
         <p id="username">Loading username...</p>
         <p id="discord-status">Loading Discord status...</p>
         <p id="custom-status">Loading custom status...</p>
@@ -420,7 +420,7 @@
             const username = presence.discord_user.username;
 
             document.getElementById("profile-picture").src = profilePicture;
-            document.getElementById("display-name").innerHTML = `<strong>penis:</strong> ${displayName}`;
+            document.getElementById("display-name").innerHTML = `<strong>Display Name:</strong> ${displayName}`;
             document.getElementById("username").innerHTML = `<strong>Username:</strong> ${username}`;
 
             const discordStatus = presence.discord_status;
@@ -529,7 +529,7 @@
           const username = presence.discord_user.username;
 
           document.getElementById("profile-picture").src = profilePicture;
-          document.getElementById("display-name").innerHTML = `<strong>penis:</strong> ${displayName}`;
+          document.getElementById("display-name").innerHTML = `<strong>Display Name:</strong> ${displayName}`;
           document.getElementById("username").innerHTML = `<strong>Username:</strong> ${username}`;
 
           const discordStatus = presence.discord_status;
