@@ -2,16 +2,16 @@
 
 A beautiful, real-time Discord status page that displays your online presence, custom status, and Spotify activity with a stunning animated space background.
 
-![Preview](https://i.imgur.com/PybbsZY.png) *(Replace with actual preview image)*
+![Preview](https://i.imgur.com/PybbsZY.png)
 
 ## Features
 
-- 🌌 Animated shooting stars background
-- 🎵 Spotify integration with real-time progress bar
-- 🔊 Background music toggle
-- 📱 Responsive design
-- 🔄 Real-time updates via Lanyard API
-- 💾 Local storage caching for offline viewing
+-  Animated shooting stars background
+-  Spotify integration with real-time progress bar
+-  Background music toggle
+-  Responsive design
+-  Real-time updates via Lanyard API
+-  Local storage caching for offline viewing
 
 ## Technologies Used
 
