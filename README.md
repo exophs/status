@@ -2,7 +2,7 @@
 
 A beautiful, real-time Discord status page that displays your online presence, custom status, and Spotify activity with a stunning animated space background.
 
-![Preview](https://i.imgur.com/PybbsZY.png)
+![Preview](https://i.imgur.com/ZD63rLw.png)
 
 ## Features
 
@@ -28,4 +28,6 @@ A beautiful, real-time Discord status page that displays your online presence, c
 
 3. Then you gotta change the "const DISCORD_USER_ID = "YOUR DISCORD ID HERE";".
 
-4. Then you're done, just host on any domain and its working, you can change the code to anything you'd like just reference back to me and this project.
+4. You can also change the mp3 song links at line 345.
+
+5. Then you're done, just host on any domain and its working, you can change the code to anything you'd like just reference back to me and this project.
