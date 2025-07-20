@@ -263,16 +263,23 @@
         color: #1db954;
         text-decoration: underline;
       }
+      
+      .now-playing {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        background: rgba(44, 44, 44, 0.6);
+        padding: 10px 15px;
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        font-size: 14px;
+        z-index: 1000;
+        display: none;
+      }
     </style>
   </head>
   <body>
-    <audio id="background-music" loop>
-      <source
-        src="https://github.com/exophs/Status/raw/refs/heads/main/music/status_wonder_if_u_care.mp3"
-        type="audio/mpeg"
-      />
-      Your browser does not support the audio element.
-    </audio>
+    <audio id="background-music"></audio>
 
     <div class="sound-controls">
       <div class="volume-slider-container">
@@ -289,6 +296,10 @@
       <button class="sound-button" id="sound-button">
         <i class="fas fa-volume-mute"></i>
       </button>
+    </div>
+    
+    <div class="now-playing" id="now-playing">
+      Now Playing: <span id="now-playing-text">Loading...</span>
     </div>
 
     <div class="stars">
@@ -328,22 +339,102 @@
     </div>
 
     <script>
+      // Music playlist
+      const playlist = [
+        {
+          title: "Wonder If U Care",
+          url: "https://github.com/exophs/Status/raw/refs/heads/main/music/status_wonder_if_u_care.mp3"
+        },
+        {
+          title: "Twin Flames",
+          url: "https://github.com/exophs/Status/raw/refs/heads/main/music/Twin_Flames.mp3"
+        },
+        {
+          title: "Take Care - Think Of Me Once In A While",
+          url: "https://github.com/exophs/Status/raw/refs/heads/main/music/Take_Care-Think_Of_Me_Once_In_A_While.mp3"
+        },
+        {
+          title: "unrequited",
+          url: "https://github.com/exophs/Status/raw/refs/heads/main/music/unrequited.mp3"
+        },
+        {
+          title: "wish I didnt kno her - biblemusic",
+          url: "https://github.com/exophs/Status/raw/refs/heads/main/music/wish_I_didnt_kno_her-%23%23biblemusic.mp3"
+        },
+        {
+          title: "ROY BEE - Kiss Me Again (Nightcore-Official-Mix)",
+          url: "https://github.com/exophs/Status/raw/refs/heads/main/music/ROY_BEE-Kiss_Me_Again_(Nightcore-Official-Mix).mp3"
+        },
+        {
+          title: "Mareux - The Perfect Girl",
+          url: "https://github.com/exophs/Status/raw/refs/heads/main/music/Mareux-The_Perfect_Girl_(Audio).mp3"
+        }
+      ];
+
       const backgroundMusic = document.getElementById("background-music");
       const soundButton = document.getElementById("sound-button");
       const volumeSlider = document.getElementById("volume-slider");
+      const nowPlayingElement = document.getElementById("now-playing");
+      const nowPlayingText = document.getElementById("now-playing-text");
 
       // Set initial volume
       backgroundMusic.volume = volumeSlider.value;
       let isPlaying = false;
+      let currentTrackIndex = 0;
+
+      // Shuffle playlist (Fisher-Yates algorithm)
+      function shufflePlaylist() {
+        for (let i = playlist.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [playlist[i], playlist[j]] = [playlist[j], playlist[i]];
+        }
+      }
+
+      // Load a track
+      function loadTrack(index) {
+        const track = playlist[index];
+        backgroundMusic.src = track.url;
+        nowPlayingText.textContent = track.title;
+        
+        if (isPlaying) {
+          backgroundMusic.play().catch(error => {
+            console.error("Error playing audio:", error);
+          });
+        }
+      }
+
+      // Play next track
+      function playNextTrack() {
+        currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+        loadTrack(currentTrackIndex);
+      }
+
+      // Initialize playlist
+      shufflePlaylist();
+      loadTrack(currentTrackIndex);
+      
+      // Show now playing info when music starts
+      backgroundMusic.addEventListener('play', () => {
+        nowPlayingElement.style.display = 'block';
+        setTimeout(() => {
+          nowPlayingElement.style.opacity = '0.7';
+        }, 3000);
+      });
+
+      // When a track ends, play the next one
+      backgroundMusic.addEventListener('ended', playNextTrack);
 
       const toggleMusic = () => {
         if (isPlaying) {
           backgroundMusic.pause();
           soundButton.innerHTML = '<i class="fas fa-volume-mute"></i>';
+          nowPlayingElement.style.opacity = '0.3';
         } else {
           backgroundMusic.play()
             .then(() => {
               soundButton.innerHTML = '<i class="fas fa-volume-up"></i>';
+              nowPlayingElement.style.display = 'block';
+              nowPlayingElement.style.opacity = '0.7';
             })
             .catch((error) => {
               console.error("Error playing audio:", error);
@@ -375,6 +466,7 @@
             .then(() => {
               isPlaying = true;
               soundButton.innerHTML = '<i class="fas fa-volume-up"></i>';
+              nowPlayingElement.style.display = 'block';
             })
             .catch((error) => {
               console.error("Error playing audio:", error);
