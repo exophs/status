@@ -1,6 +1,6 @@
 # Discord Status Page
 
-A beautiful, real-time Discord status page that displays your online presence, custom status, and Spotify activity with a stunning animated space background.
+A real-time Discord status page that displays your online presence, custom status, and Spotify activity, and games with a stunning animated space background.
 
 ![Preview](https://i.imgur.com/ZD63rLw.png)
 
@@ -22,7 +22,7 @@ A beautiful, real-time Discord status page that displays your online presence, c
 
 ## Setup
 
-1. First git clone https://github.com/exophs/Status.
+1. First ```git clone https://github.com/exophs/Status.```
 
 2. Second you have to join the Lanyard [Discord server](https://discord.gg/8NTS7FRFgu) so their bot can see your profile to display on the website.
 
