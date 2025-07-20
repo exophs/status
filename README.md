@@ -1,4 +1,4 @@
-# Discord Status Page
+# Stellar
 
 A real-time Discord status page that displays your online presence, custom status, and Spotify activity, and games with a stunning animated space background.
 
