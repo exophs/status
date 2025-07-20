@@ -481,8 +481,14 @@
       let socket = null;
       let progressAnimationFrame = null;
       let latestAlbumCover = "";
+      let isTabVisible = true;
 
       const connectWebSocket = () => {
+        // Only connect if we're not already connected and tab is visible
+        if (socket && (socket.readyState === WebSocket.OPEN || socket.readyState === WebSocket.CONNECTING)) {
+          return;
+        }
+
         socket = new WebSocket("wss://api.lanyard.rest/socket");
 
         socket.addEventListener("open", () => {
@@ -495,11 +501,14 @@
             })
           );
 
-          document.getElementById("discord-status").innerText =
-            "Loading Discord status...";
-          document.getElementById("custom-status").innerText =
-            "Loading custom status...";
-          document.getElementById("song-link").innerText = "Loading song...";
+          // Only update loading text if we don't have cached data
+          if (!localStorage.getItem("lastPresence")) {
+            document.getElementById("discord-status").innerText =
+              "Loading Discord status...";
+            document.getElementById("custom-status").innerText =
+              "Loading custom status...";
+            document.getElementById("song-link").innerText = "Loading song...";
+          }
         });
 
         socket.addEventListener("message", (event) => {
@@ -507,73 +516,84 @@
 
           if (data.t === "INIT_STATE" || data.t === "PRESENCE_UPDATE") {
             const presence = data.d;
-
-            const profilePicture = `https://cdn.discordapp.com/avatars/${DISCORD_USER_ID}/${presence.discord_user.avatar}.png?size=256`;
-            const displayName =
-              presence.discord_user.global_name || presence.discord_user.username;
-            const username = presence.discord_user.username;
-
-            document.getElementById("profile-picture").src = profilePicture;
-            document.getElementById("display-name").innerHTML = `<strong>Display Name:</strong> ${displayName}`;
-            document.getElementById("username").innerHTML = `<strong>Username:</strong> ${username}`;
-
-            const discordStatus = presence.discord_status;
-            document.getElementById("discord-status").innerHTML = `<strong>Status:</strong> ${discordStatus}`;
-
-            const customActivity = presence.activities.find((a) => a.type === 4);
-            if (customActivity) {
-              const customStatus = customActivity.state || "No custom status";
-              const customEmoji = customActivity.emoji;
-
-              let customStatusHTML = `<strong>Custom Status:</strong> ${customStatus}`;
-              if (customEmoji) {
-                const emojiURL = getEmojiURL(customEmoji);
-                if (emojiURL) {
-                  customStatusHTML = `<strong>Custom Status:</strong> <img src="${emojiURL}" alt="${customEmoji.name}" class="custom-status-emoji"> ${customStatus}`;
-                } else {
-                  customStatusHTML = `<strong>Custom Status:</strong> ${customEmoji.name} ${customStatus}`;
-                }
-              }
-
-              document.getElementById("custom-status").innerHTML =
-                customStatusHTML;
-            } else {
-              document.getElementById("custom-status").innerHTML =
-                "<strong>Custom Status:</strong> No custom status";
-            }
-
-            const spotify = presence.spotify;
-            if (spotify) {
-              updateSpotifyStatus(spotify);
-            } else {
-              resetSpotifyStatus();
-            }
-
-            const activities = presence.activities.filter((a) => a.type === 0);
-            displayActivities(activities);
-
+            updatePresenceUI(presence);
             localStorage.setItem("lastPresence", JSON.stringify(presence));
           }
         });
 
         socket.addEventListener("close", () => {
-          document.getElementById("discord-status").innerText = "Reconnecting...";
-          document.getElementById("custom-status").innerText = "Reconnecting...";
-          document.getElementById("song-link").innerText = "Reconnecting...";
+          // Only show reconnecting message if tab is visible
+          if (isTabVisible) {
+            document.getElementById("discord-status").innerText = "Connection closed. Reconnecting...";
+            document.getElementById("custom-status").innerText = "Connection closed. Reconnecting...";
+            document.getElementById("song-link").innerText = "Connection closed. Reconnecting...";
+          }
 
           setTimeout(connectWebSocket, 5000);
         });
 
         socket.addEventListener("error", (error) => {
-          document.getElementById("discord-status").innerText =
-            "Connection error. Reconnecting...";
-          document.getElementById("custom-status").innerText =
-            "Connection error. Reconnecting...";
-          document.getElementById("song-link").innerText =
-            "Connection error. Reconnecting...";
+          // Only show error message if tab is visible
+          if (isTabVisible) {
+            document.getElementById("discord-status").innerText =
+              "Connection error. Reconnecting...";
+            document.getElementById("custom-status").innerText =
+              "Connection error. Reconnecting...";
+            document.getElementById("song-link").innerText =
+              "Connection error. Reconnecting...";
+          }
 
           setTimeout(connectWebSocket, 5000);
         });
+      };
+
+      const updatePresenceUI = (presence) => {
+        // Only update UI if tab is visible
+        if (!isTabVisible) return;
+
+        const profilePicture = `https://cdn.discordapp.com/avatars/${DISCORD_USER_ID}/${presence.discord_user.avatar}.png?size=256`;
+        const displayName =
+          presence.discord_user.global_name || presence.discord_user.username;
+        const username = presence.discord_user.username;
+
+        document.getElementById("profile-picture").src = profilePicture;
+        document.getElementById("display-name").innerHTML = `<strong>Display Name:</strong> ${displayName}`;
+        document.getElementById("username").innerHTML = `<strong>Username:</strong> ${username}`;
+
+        const discordStatus = presence.discord_status;
+        document.getElementById("discord-status").innerHTML = `<strong>Status:</strong> ${discordStatus}`;
+
+        const customActivity = presence.activities.find((a) => a.type === 4);
+        if (customActivity) {
+          const customStatus = customActivity.state || "No custom status";
+          const customEmoji = customActivity.emoji;
+
+          let customStatusHTML = `<strong>Custom Status:</strong> ${customStatus}`;
+          if (customEmoji) {
+            const emojiURL = getEmojiURL(customEmoji);
+            if (emojiURL) {
+              customStatusHTML = `<strong>Custom Status:</strong> <img src="${emojiURL}" alt="${customEmoji.name}" class="custom-status-emoji"> ${customStatus}`;
+            } else {
+              customStatusHTML = `<strong>Custom Status:</strong> ${customEmoji.name} ${customStatus}`;
+            }
+          }
+
+          document.getElementById("custom-status").innerHTML =
+            customStatusHTML;
+        } else {
+          document.getElementById("custom-status").innerHTML =
+            "<strong>Custom Status:</strong> No custom status";
+        }
+
+        const spotify = presence.spotify;
+        if (spotify) {
+          updateSpotifyStatus(spotify);
+        } else {
+          resetSpotifyStatus();
+        }
+
+        const activities = presence.activities.filter((a) => a.type === 0);
+        displayActivities(activities);
       };
 
       const updateSpotifyStatus = (spotify) => {
@@ -616,50 +636,7 @@
         const lastPresence = localStorage.getItem("lastPresence");
         if (lastPresence) {
           const presence = JSON.parse(lastPresence);
-
-          const profilePicture = `https://cdn.discordapp.com/avatars/${DISCORD_USER_ID}/${presence.discord_user.avatar}.png?size=256`;
-          const displayName =
-            presence.discord_user.global_name || presence.discord_user.username;
-          const username = presence.discord_user.username;
-
-          document.getElementById("profile-picture").src = profilePicture;
-          document.getElementById("display-name").innerHTML = `<strong>Display Name:</strong> ${displayName}`;
-          document.getElementById("username").innerHTML = `<strong>Username:</strong> ${username}`;
-
-          const discordStatus = presence.discord_status;
-          document.getElementById("discord-status").innerHTML = `<strong>Status:</strong> ${discordStatus}`;
-
-          const customActivity = presence.activities.find((a) => a.type === 4);
-          if (customActivity) {
-            const customStatus = customActivity.state || "No custom status";
-            const customEmoji = customActivity.emoji;
-
-            let customStatusHTML = `<strong>Custom Status:</strong> ${customStatus}`;
-            if (customEmoji) {
-              const emojiURL = getEmojiURL(customEmoji);
-              if (emojiURL) {
-                customStatusHTML = `<strong>Custom Status:</strong> <img src="${emojiURL}" alt="${customEmoji.name}" class="custom-status-emoji"> ${customStatus}`;
-              } else {
-                customStatusHTML = `<strong>Custom Status:</strong> ${customEmoji.name} ${customStatus}`;
-              }
-            }
-
-            document.getElementById("custom-status").innerHTML =
-              customStatusHTML;
-          } else {
-            document.getElementById("custom-status").innerHTML =
-              "<strong>Custom Status:</strong> No custom status";
-          }
-
-          const spotify = presence.spotify;
-          if (spotify) {
-            updateSpotifyStatus(spotify);
-          } else {
-            resetSpotifyStatus();
-          }
-
-          const activities = presence.activities.filter((a) => a.type === 0);
-          displayActivities(activities);
+          updatePresenceUI(presence);
         }
       };
 
@@ -671,6 +648,14 @@
       };
 
       const updateProgress = (startTime, endTime) => {
+        // Only update progress if tab is visible
+        if (!isTabVisible) {
+          if (progressAnimationFrame) {
+            cancelAnimationFrame(progressAnimationFrame);
+          }
+          return;
+        }
+
         const currentTime = Date.now();
         const progress = (currentTime - startTime) / (endTime - startTime);
         const progressPercent = Math.min(progress * 100, 100);
@@ -718,14 +703,38 @@
         });
       };
 
-      loadLastPresence();
-      connectWebSocket();
-
+      // Track tab visibility
       document.addEventListener("visibilitychange", () => {
-        if (document.visibilityState === "visible") {
-          connectWebSocket();
+        isTabVisible = !document.hidden;
+        
+        if (isTabVisible) {
+          // When tab becomes visible, update from cached data first
+          loadLastPresence();
+          
+          // Then reconnect WebSocket if needed
+          if (!socket || socket.readyState === WebSocket.CLOSED || socket.readyState === WebSocket.CLOSING) {
+            connectWebSocket();
+          }
+          
+          // Restart progress animation if needed
+          const lastPresence = localStorage.getItem("lastPresence");
+          if (lastPresence) {
+            const presence = JSON.parse(lastPresence);
+            if (presence.spotify) {
+              updateProgress(presence.spotify.timestamps.start, presence.spotify.timestamps.end);
+            }
+          }
+        } else {
+          // When tab becomes hidden, stop progress animation
+          if (progressAnimationFrame) {
+            cancelAnimationFrame(progressAnimationFrame);
+          }
         }
       });
+
+      // Initial load
+      loadLastPresence();
+      connectWebSocket();
     </script>
   </body>
 </html>
