@@ -1,6 +1,3 @@
-Here's the updated `README.md` for your **Stellar** project, incorporating the recent changes with the music playlist feature:
-
-```markdown
 # Stellar
 
 A real-time Discord status page that displays your online presence, custom status, and Spotify activity with a stunning animated space background and music player.
