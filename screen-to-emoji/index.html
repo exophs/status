@@ -13,7 +13,7 @@
   <script>
     async function updateEmoji() {
       try {
-        const res = await fetch("http://localhost:5000/emoji-feed");
+        const res = await fetch("https://3aaa6814afbe.ngrok-free.app/");
         const data = await res.json();
         document.getElementById("emoji").textContent = data.map(row => row.join("")).join("\n");
       } catch {
