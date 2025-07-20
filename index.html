@@ -16,11 +16,11 @@
     <style>
       .sound-controls {
         position: fixed;
-        top: 10px;
-        right: 10px;
+        top: 20px;
+        right: 20px;
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
         z-index: 1000;
       }
 
@@ -28,15 +28,14 @@
         background: rgba(44, 44, 44, 0.6);
         border: none;
         border-radius: 50%;
-        width: 32px;
-        height: 32px;
+        width: 40px;
+        height: 40px;
         color: white;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
         backdrop-filter: blur(10px);
-        font-size: 14px;
       }
 
       .sound-button:hover {
@@ -51,14 +50,14 @@
       }
 
       .sound-controls:hover .volume-slider-container {
-        width: 80px;
+        width: 100px;
         opacity: 1;
       }
 
       .volume-slider {
         width: 100%;
         -webkit-appearance: none;
-        height: 4px;
+        height: 5px;
         background: rgba(255, 255, 255, 0.2);
         border-radius: 5px;
         outline: none;
@@ -67,21 +66,22 @@
       .volume-slider::-webkit-slider-thumb {
         -webkit-appearance: none;
         appearance: none;
-        width: 12px;
-        height: 12px;
+        width: 15px;
+        height: 15px;
         border-radius: 50%;
         background: white;
         cursor: pointer;
       }
 
       .volume-slider::-moz-range-thumb {
-        width: 12px;
-        height: 12px;
+        width: 15px;
+        height: 15px;
         border-radius: 50%;
         background: white;
         cursor: pointer;
       }
 
+      /* Rest of your existing CSS remains the same */
       body {
         display: flex;
         justify-content: center;
@@ -190,135 +190,78 @@
 
       .container {
         display: flex;
-        gap: 10px;
+        gap: 20px;
         background-color: rgba(44, 44, 44, 0.4);
-        padding: 12px;
-        border-radius: 8px;
+        padding: 20px;
+        border-radius: 10px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         z-index: 1;
         backdrop-filter: blur(20px) saturate(180%);
         border: 1px solid rgba(255, 255, 255, 0.1);
-        max-width: 500px;
-        width: auto;
       }
 
       .status-box {
+        flex: 1;
         background-color: rgba(44, 44, 44, 0.6);
-        padding: 12px;
-        border-radius: 6px;
+        padding: 20px;
+        border-radius: 10px;
         text-align: center;
-        min-width: 160px;
+        min-width: 250px;
         backdrop-filter: blur(10px);
-        transition: all 0.2s ease;
-      }
-
-      #spotify-box {
-        min-width: 0;
-        width: 0;
-        padding: 0;
-        overflow: hidden;
-        opacity: 0;
-        margin: 0;
-        border: none;
-      }
-
-      #spotify-box.visible {
-        min-width: 160px;
-        width: auto;
-        padding: 12px;
-        opacity: 1;
-        margin: 0;
-        border: 1px solid rgba(255, 255, 255, 0.1);
       }
 
       .profile-picture {
-        width: 60px;
-        height: 60px;
+        width: 80px;
+        height: 80px;
         border-radius: 50%;
-        margin-bottom: 6px;
+        margin-bottom: 10px;
       }
 
       .album-cover {
-        width: 60px;
-        height: 60px;
-        border-radius: 6px;
-        margin-bottom: 6px;
+        width: 80px;
+        height: 80px;
+        border-radius: 10px;
+        margin-bottom: 10px;
       }
 
       .progress-bar {
         width: 100%;
-        height: 3px;
+        height: 5px;
         background-color: #444;
-        border-radius: 3px;
-        margin: 6px 0;
+        border-radius: 5px;
+        margin-top: 10px;
         overflow: hidden;
       }
 
       .progress-bar-inner {
         height: 100%;
         background-color: #1db954;
-        border-radius: 3px;
+        border-radius: 5px;
       }
 
       .custom-status-emoji {
-        height: 16px;
+        height: 20px;
         vertical-align: middle;
       }
 
       .activity {
-        margin-top: 6px;
-        font-size: 12px;
-        line-height: 1.2;
+        margin-top: 10px;
+        font-size: 14px;
+      }
+
+      .hidden {
+        display: none;
       }
 
       #song-link {
         color: inherit;
         text-decoration: none;
         transition: color 0.2s ease;
-        display: block;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        font-size: 13px;
       }
 
       #song-link:hover {
         color: #1db954;
         text-decoration: underline;
-      }
-      
-      .status-text {
-        margin: 4px 0;
-        font-size: 13px;
-        line-height: 1.2;
-      }
-      
-      .now-playing {
-        font-size: 12px;
-        margin-bottom: 4px;
-      }
-      
-      .artist {
-        font-size: 11px;
-        margin-bottom: 4px;
-        opacity: 0.9;
-      }
-      
-      .song-progress {
-        font-size: 10px;
-        opacity: 0.8;
-      }
-      
-      .username {
-        opacity: 0.8;
-        font-size: 12px;
-        margin-bottom: 6px;
-      }
-      
-      .display-name {
-        font-weight: bold;
-        font-size: 14px;
-        margin: 6px 0 2px 0;
       }
     </style>
   </head>
@@ -364,21 +307,23 @@
     <div class="container">
       <div class="status-box">
         <img src="" alt="Profile Picture" class="profile-picture" id="profile-picture" />
-        <p class="display-name" id="display-name">Loading...</p>
-        <p class="username" id="username">@loading</p>
-        <p class="status-text" id="discord-status">Status: loading</p>
-        <p class="status-text" id="custom-status"></p>
+        <p id="display-name">Loading display name...</p>
+        <p id="username">Loading username...</p>
+        <p id="discord-status">Loading Discord status...</p>
+        <p id="custom-status">Loading custom status...</p>
         <div id="activities"></div>
       </div>
 
       <div class="status-box" id="spotify-box">
         <img src="" alt="Album Cover" class="album-cover" id="album-cover" />
-        <p class="now-playing"><a id="song-link" target="_blank" rel="noopener noreferrer">Not playing</a></p>
-        <p class="artist" id="artist-name"></p>
+        <p id="song-name">
+          <a id="song-link" target="_blank" rel="noopener noreferrer">Loading song...</a>
+        </p>
+        <p id="artist-name">Loading artist...</p>
         <div class="progress-bar" id="progress-bar">
           <div class="progress-bar-inner" id="progress-bar-inner"></div>
         </div>
-        <p class="song-progress" id="song-progress"></p>
+        <p id="song-progress">0:00 / 0:00</p>
       </div>
     </div>
 
@@ -386,7 +331,6 @@
       const backgroundMusic = document.getElementById("background-music");
       const soundButton = document.getElementById("sound-button");
       const volumeSlider = document.getElementById("volume-slider");
-      const spotifyBox = document.getElementById("spotify-box");
 
       // Set initial volume
       backgroundMusic.volume = volumeSlider.value;
@@ -458,9 +402,10 @@
           );
 
           document.getElementById("discord-status").innerText =
-            "Status: loading...";
-          document.getElementById("custom-status").innerText = "";
-          document.getElementById("song-link").innerText = "Not playing";
+            "Loading Discord status...";
+          document.getElementById("custom-status").innerText =
+            "Loading custom status...";
+          document.getElementById("song-link").innerText = "Loading song...";
         });
 
         socket.addEventListener("message", (event) => {
@@ -475,40 +420,39 @@
             const username = presence.discord_user.username;
 
             document.getElementById("profile-picture").src = profilePicture;
-            document.getElementById("display-name").textContent = displayName;
-            document.getElementById("username").textContent = `@${username}`;
+            document.getElementById("display-name").innerHTML = `<strong>Display Name:</strong> ${displayName}`;
+            document.getElementById("username").innerHTML = `<strong>Username:</strong> ${username}`;
 
             const discordStatus = presence.discord_status;
             document.getElementById("discord-status").innerHTML = `<strong>Status:</strong> ${discordStatus}`;
 
             const customActivity = presence.activities.find((a) => a.type === 4);
             if (customActivity) {
-              const customStatus = customActivity.state || "";
+              const customStatus = customActivity.state || "No custom status";
               const customEmoji = customActivity.emoji;
 
-              let customStatusHTML = customStatus;
+              let customStatusHTML = `<strong>Custom Status:</strong> ${customStatus}`;
               if (customEmoji) {
                 const emojiURL = getEmojiURL(customEmoji);
                 if (emojiURL) {
-                  customStatusHTML = `<img src="${emojiURL}" alt="${customEmoji.name}" class="custom-status-emoji"> ${customStatus}`;
+                  customStatusHTML = `<strong>Custom Status:</strong> <img src="${emojiURL}" alt="${customEmoji.name}" class="custom-status-emoji"> ${customStatus}`;
                 } else {
-                  customStatusHTML = `${customEmoji.name} ${customStatus}`;
+                  customStatusHTML = `<strong>Custom Status:</strong> ${customEmoji.name} ${customStatus}`;
                 }
               }
 
               document.getElementById("custom-status").innerHTML =
                 customStatusHTML;
             } else {
-              document.getElementById("custom-status").innerHTML = "";
+              document.getElementById("custom-status").innerHTML =
+                "<strong>Custom Status:</strong> No custom status";
             }
 
             const spotify = presence.spotify;
             if (spotify) {
               updateSpotifyStatus(spotify);
-              spotifyBox.classList.add("visible");
             } else {
               resetSpotifyStatus();
-              spotifyBox.classList.remove("visible");
             }
 
             const activities = presence.activities.filter((a) => a.type === 0);
@@ -519,18 +463,20 @@
         });
 
         socket.addEventListener("close", () => {
-          document.getElementById("discord-status").innerText = "Status: reconnecting...";
-          document.getElementById("custom-status").innerText = "";
-          document.getElementById("song-link").innerText = "Not playing";
+          document.getElementById("discord-status").innerText = "Reconnecting...";
+          document.getElementById("custom-status").innerText = "Reconnecting...";
+          document.getElementById("song-link").innerText = "Reconnecting...";
 
           setTimeout(connectWebSocket, 5000);
         });
 
         socket.addEventListener("error", (error) => {
           document.getElementById("discord-status").innerText =
-            "Status: connection error";
-          document.getElementById("custom-status").innerText = "";
-          document.getElementById("song-link").innerText = "Not playing";
+            "Connection error. Reconnecting...";
+          document.getElementById("custom-status").innerText =
+            "Connection error. Reconnecting...";
+          document.getElementById("song-link").innerText =
+            "Connection error. Reconnecting...";
 
           setTimeout(connectWebSocket, 5000);
         });
@@ -545,27 +491,31 @@
         const spotifyTrackId = spotify.track_id;
 
         document.getElementById("album-cover").src = albumCover;
-        document.getElementById("song-link").innerText = songName;
-        document.getElementById("artist-name").innerText = artistName;
+        document.getElementById("song-link").innerText = `Now Playing: ${songName}`;
+        document.getElementById("artist-name").innerText = `Artist: ${artistName}`;
 
         document.getElementById("song-link").href = `https://open.spotify.com/track/${spotifyTrackId}`;
 
         latestAlbumCover = albumCover;
 
+        document.getElementById("spotify-box").classList.remove("hidden");
+
         updateProgress(startTime, endTime);
       };
 
       const resetSpotifyStatus = () => {
-        document.getElementById("song-link").innerText = "Not playing";
+        document.getElementById("song-link").innerText = "No song currently playing.";
         document.getElementById("song-link").href = "#";
         document.getElementById("artist-name").innerText = "";
         document.getElementById("progress-bar-inner").style.width = "0%";
-        document.getElementById("song-progress").innerText = "";
+        document.getElementById("song-progress").innerText = "0:00 / 0:00";
 
         if (progressAnimationFrame) {
           cancelAnimationFrame(progressAnimationFrame);
           progressAnimationFrame = null;
         }
+
+        document.getElementById("spotify-box").classList.add("hidden");
       };
 
       const loadLastPresence = () => {
@@ -579,40 +529,39 @@
           const username = presence.discord_user.username;
 
           document.getElementById("profile-picture").src = profilePicture;
-          document.getElementById("display-name").textContent = displayName;
-          document.getElementById("username").textContent = `@${username}`;
+          document.getElementById("display-name").innerHTML = `<strong>Display Name:</strong> ${displayName}`;
+          document.getElementById("username").innerHTML = `<strong>Username:</strong> ${username}`;
 
           const discordStatus = presence.discord_status;
           document.getElementById("discord-status").innerHTML = `<strong>Status:</strong> ${discordStatus}`;
 
           const customActivity = presence.activities.find((a) => a.type === 4);
           if (customActivity) {
-            const customStatus = customActivity.state || "";
+            const customStatus = customActivity.state || "No custom status";
             const customEmoji = customActivity.emoji;
 
-            let customStatusHTML = customStatus;
+            let customStatusHTML = `<strong>Custom Status:</strong> ${customStatus}`;
             if (customEmoji) {
               const emojiURL = getEmojiURL(customEmoji);
               if (emojiURL) {
-                customStatusHTML = `<img src="${emojiURL}" alt="${customEmoji.name}" class="custom-status-emoji"> ${customStatus}`;
+                customStatusHTML = `<strong>Custom Status:</strong> <img src="${emojiURL}" alt="${customEmoji.name}" class="custom-status-emoji"> ${customStatus}`;
               } else {
-                customStatusHTML = `${customEmoji.name} ${customStatus}`;
+                customStatusHTML = `<strong>Custom Status:</strong> ${customEmoji.name} ${customStatus}`;
               }
             }
 
             document.getElementById("custom-status").innerHTML =
               customStatusHTML;
           } else {
-            document.getElementById("custom-status").innerHTML = "";
+            document.getElementById("custom-status").innerHTML =
+              "<strong>Custom Status:</strong> No custom status";
           }
 
           const spotify = presence.spotify;
           if (spotify) {
             updateSpotifyStatus(spotify);
-            spotifyBox.classList.add("visible");
           } else {
             resetSpotifyStatus();
-            spotifyBox.classList.remove("visible");
           }
 
           const activities = presence.activities.filter((a) => a.type === 0);
@@ -661,26 +610,18 @@
         const activitiesContainer = document.getElementById("activities");
         activitiesContainer.innerHTML = "";
 
-        if (activities.length > 0) {
-          activities.forEach((activity) => {
-            if (activity.type === 0) {
-              const activityElement = document.createElement("div");
-              activityElement.className = "activity";
-              let activityHTML = `<strong>${activity.name}</strong>`;
-              
-              if (activity.details) {
-                activityHTML += `<br><em>${activity.details}</em>`;
-              }
-              
-              if (activity.state) {
-                activityHTML += `<br><em>${activity.state}</em>`;
-              }
-              
-              activityElement.innerHTML = activityHTML;
-              activitiesContainer.appendChild(activityElement);
-            }
-          });
-        }
+        activities.forEach((activity) => {
+          if (activity.type === 0) {
+            const activityElement = document.createElement("div");
+            activityElement.className = "activity";
+            activityElement.innerHTML = `
+          <strong>Playing:</strong> ${activity.name}<br>
+          ${activity.details ? `<em>${activity.details}</em><br>` : ""}
+          ${activity.state ? `<em>${activity.state}</em><br>` : ""}
+        `;
+            activitiesContainer.appendChild(activityElement);
+          }
+        });
       };
 
       loadLastPresence();
