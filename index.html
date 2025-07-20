@@ -81,6 +81,7 @@
         cursor: pointer;
       }
 
+      /* Rest of your existing CSS remains the same */
       body {
         display: flex;
         justify-content: center;
@@ -208,23 +209,20 @@
         min-width: 250px;
         backdrop-filter: blur(10px);
         user-select: none;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
       }
 
       .profile-picture {
         width: 80px;
         height: 80px;
         border-radius: 50%;
+        margin-bottom: 10px;
       }
 
       .album-cover {
         width: 80px;
         height: 80px;
         border-radius: 10px;
+        margin-bottom: 10px;
       }
 
       .progress-bar {
@@ -232,6 +230,7 @@
         height: 5px;
         background-color: #444;
         border-radius: 5px;
+        margin-top: 10px;
         overflow: hidden;
       }
 
@@ -265,7 +264,7 @@
         color: #1db954;
         text-decoration: underline;
       }
-
+      
       .now-playing {
         position: fixed;
         bottom: 20px;
@@ -695,10 +694,10 @@
             const activityElement = document.createElement("div");
             activityElement.className = "activity";
             activityElement.innerHTML = `
-              <strong>Playing:</strong> ${activity.name}<br>
-              ${activity.details ? `<em>${activity.details}</em><br>` : ""}
-              ${activity.state ? `<em>${activity.state}</em><br>` : ""}
-            `;
+          <strong>Playing:</strong> ${activity.name}<br>
+          ${activity.details ? `<em>${activity.details}</em><br>` : ""}
+          ${activity.state ? `<em>${activity.state}</em><br>` : ""}
+        `;
             activitiesContainer.appendChild(activityElement);
           }
         });
