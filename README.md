@@ -6,23 +6,14 @@ A real-time Discord status page that displays your online presence, custom statu
 
 ## Features
 
-- 🎵 **Multi-track music player** with shuffle functionality  
-- ✨ Animated shooting stars background  
-- 🎧 Spotify integration with real-time progress bar  
-- 🔊 Background music toggle with volume control  
-- 📱 Responsive design  
-- ⚡ Real-time updates via Lanyard API  
-- 💾 Local storage caching for offline viewing  
-- 🎶 Now playing display for background music  
-
-## Music Playlist
-- Wonder If U Care  
-- Twin Flames  
-- Take Care - Think Of Me Once In A While  
-- unrequited  
-- wish I didnt kno her  
-- ROY BEE - Kiss Me Again (Nightcore Mix)  
-- Mareux - The Perfect Girl  
+-  **Multi-track music player** with shuffle functionality  
+-  Animated shooting stars background  
+-  Spotify integration with real-time progress bar  
+-  Background music toggle with volume control  
+-  Responsive design  
+-  Real-time updates via Lanyard API  
+-  Local storage caching for offline viewing  
+-  Now playing display for background music   
 
 ## Technologies Used
 
