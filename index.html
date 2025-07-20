@@ -81,7 +81,6 @@
         cursor: pointer;
       }
 
-      /* Rest of your existing CSS remains the same */
       body {
         display: flex;
         justify-content: center;
@@ -264,7 +263,7 @@
         color: #1db954;
         text-decoration: underline;
       }
-      
+
       .now-playing {
         position: fixed;
         bottom: 20px;
@@ -299,7 +298,7 @@
         <i class="fas fa-volume-mute"></i>
       </button>
     </div>
-    
+
     <div class="now-playing" id="now-playing">
       Now Playing: <span id="now-playing-text">Loading...</span>
     </div>
@@ -341,7 +340,7 @@
     </div>
 
     <script>
-      // Music playlist
+
       const playlist = [
         {
           title: "Wonder If U Care - flyingfish",
@@ -379,12 +378,10 @@
       const nowPlayingElement = document.getElementById("now-playing");
       const nowPlayingText = document.getElementById("now-playing-text");
 
-      // Set initial volume
       backgroundMusic.volume = volumeSlider.value;
       let isPlaying = false;
       let currentTrackIndex = 0;
 
-      // Shuffle playlist (Fisher-Yates algorithm)
       function shufflePlaylist() {
         for (let i = playlist.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
@@ -392,12 +389,11 @@
         }
       }
 
-      // Load a track
       function loadTrack(index) {
         const track = playlist[index];
         backgroundMusic.src = track.url;
         nowPlayingText.textContent = track.title;
-        
+
         if (isPlaying) {
           backgroundMusic.play().catch(error => {
             console.error("Error playing audio:", error);
@@ -405,17 +401,14 @@
         }
       }
 
-      // Play next track
       function playNextTrack() {
         currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
         loadTrack(currentTrackIndex);
       }
 
-      // Initialize playlist
       shufflePlaylist();
       loadTrack(currentTrackIndex);
-      
-      // Show now playing info when music starts
+
       backgroundMusic.addEventListener('play', () => {
         nowPlayingElement.style.display = 'block';
         setTimeout(() => {
@@ -423,7 +416,6 @@
         }, 3000);
       });
 
-      // When a track ends, play the next one
       backgroundMusic.addEventListener('ended', playNextTrack);
 
       const toggleMusic = () => {
@@ -446,11 +438,9 @@
         isPlaying = !isPlaying;
       };
 
-      // Update volume when slider changes
       volumeSlider.addEventListener("input", (e) => {
         backgroundMusic.volume = e.target.value;
-        
-        // Update button icon based on volume level
+
         if (e.target.value == 0) {
           soundButton.innerHTML = '<i class="fas fa-volume-mute"></i>';
         } else if (e.target.value < 0.5) {
@@ -484,7 +474,7 @@
       let isTabVisible = true;
 
       const connectWebSocket = () => {
-        // Only connect if we're not already connected and tab is visible
+
         if (socket && (socket.readyState === WebSocket.OPEN || socket.readyState === WebSocket.CONNECTING)) {
           return;
         }
@@ -501,7 +491,6 @@
             })
           );
 
-          // Only update loading text if we don't have cached data
           if (!localStorage.getItem("lastPresence")) {
             document.getElementById("discord-status").innerText =
               "Loading Discord status...";
@@ -522,7 +511,7 @@
         });
 
         socket.addEventListener("close", () => {
-          // Only show reconnecting message if tab is visible
+
           if (isTabVisible) {
             document.getElementById("discord-status").innerText = "Connection closed. Reconnecting...";
             document.getElementById("custom-status").innerText = "Connection closed. Reconnecting...";
@@ -533,7 +522,7 @@
         });
 
         socket.addEventListener("error", (error) => {
-          // Only show error message if tab is visible
+
           if (isTabVisible) {
             document.getElementById("discord-status").innerText =
               "Connection error. Reconnecting...";
@@ -548,10 +537,10 @@
       };
 
       const updatePresenceUI = (presence) => {
-        // Only update UI if tab is visible
+
         if (!isTabVisible) return;
 
-        const profilePicture = `https://cdn.discordapp.com/avatars/${DISCORD_USER_ID}/${presence.discord_user.avatar}.png?size=256`;
+        const profilePicture = `https:
         const displayName =
           presence.discord_user.global_name || presence.discord_user.username;
         const username = presence.discord_user.username;
@@ -608,7 +597,7 @@
         document.getElementById("song-link").innerText = `Now Playing: ${songName}`;
         document.getElementById("artist-name").innerText = `Artist: ${artistName}`;
 
-        document.getElementById("song-link").href = `https://open.spotify.com/track/${spotifyTrackId}`;
+        document.getElementById("song-link").href = `https:
 
         latestAlbumCover = albumCover;
 
@@ -648,7 +637,7 @@
       };
 
       const updateProgress = (startTime, endTime) => {
-        // Only update progress if tab is visible
+
         if (!isTabVisible) {
           if (progressAnimationFrame) {
             cancelAnimationFrame(progressAnimationFrame);
@@ -677,7 +666,7 @@
 
       const getEmojiURL = (emoji) => {
         if (emoji.id) {
-          return `https://cdn.discordapp.com/emojis/${emoji.id}.${
+          return `https:
             emoji.animated ? "gif" : "png"
           }`;
         } else {
@@ -703,20 +692,17 @@
         });
       };
 
-      // Track tab visibility
       document.addEventListener("visibilitychange", () => {
         isTabVisible = !document.hidden;
-        
+
         if (isTabVisible) {
-          // When tab becomes visible, update from cached data first
+
           loadLastPresence();
-          
-          // Then reconnect WebSocket if needed
+
           if (!socket || socket.readyState === WebSocket.CLOSED || socket.readyState === WebSocket.CLOSING) {
             connectWebSocket();
           }
-          
-          // Restart progress animation if needed
+
           const lastPresence = localStorage.getItem("lastPresence");
           if (lastPresence) {
             const presence = JSON.parse(lastPresence);
@@ -725,14 +711,13 @@
             }
           }
         } else {
-          // When tab becomes hidden, stop progress animation
+
           if (progressAnimationFrame) {
             cancelAnimationFrame(progressAnimationFrame);
           }
         }
       });
 
-      // Initial load
       loadLastPresence();
       connectWebSocket();
     </script>
