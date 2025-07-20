@@ -1,33 +1,58 @@
+Here's the updated `README.md` for your **Stellar** project, incorporating the recent changes with the music playlist feature:
+
+```markdown
 # Stellar
 
-A real-time Discord status page that displays your online presence, custom status, and Spotify activity, and games with a stunning animated space background.
+A real-time Discord status page that displays your online presence, custom status, and Spotify activity with a stunning animated space background and music player.
 
 ![Preview](https://i.imgur.com/ZD63rLw.png)
 
 ## Features
 
--  Animated shooting stars background
--  Spotify integration with real-time progress bar
--  Background music toggle
--  Responsive design
--  Real-time updates via Lanyard API
--  Local storage caching for offline viewing
+- 🎵 **Multi-track music player** with shuffle functionality  
+- ✨ Animated shooting stars background  
+- 🎧 Spotify integration with real-time progress bar  
+- 🔊 Background music toggle with volume control  
+- 📱 Responsive design  
+- ⚡ Real-time updates via Lanyard API  
+- 💾 Local storage caching for offline viewing  
+- 🎶 Now playing display for background music  
+
+## Music Playlist
+- Wonder If U Care  
+- Twin Flames  
+- Take Care - Think Of Me Once In A While  
+- unrequited  
+- wish I didnt kno her  
+- ROY BEE - Kiss Me Again (Nightcore Mix)  
+- Mareux - The Perfect Girl  
 
 ## Technologies Used
 
-- HTML5, CSS3, JavaScript
-- [Lanyard API](https://github.com/Phineas/lanyard) for Discord presence data
-- WebSocket for real-time updates
-- Font Awesome for icons
+- HTML5, CSS3, JavaScript  
+- [Lanyard API](https://github.com/Phineas/lanyard) for Discord presence data  
+- WebSocket for real-time updates  
+- Font Awesome for icons  
 
 ## Setup
 
-1. First ```git clone https://github.com/exophs/Status.```
+1. Clone the repository:  
+   ```bash
+   git clone https://github.com/exophs/Stellar.git
+   ```
 
-2. Second you have to join the Lanyard [Discord server](https://discord.gg/8NTS7FRFgu) so their bot can see your profile to display on the website.
+2. Join the Lanyard [Discord server](https://discord.gg/8NTS7FRFgu) to enable presence tracking.
 
-3. Then you gotta change the "const DISCORD_USER_ID = "YOUR DISCORD ID HERE";".
+3. Configure your Discord ID in `index.html`:  
+   ```javascript
+   const DISCORD_USER_ID = "YOUR_DISCORD_ID_HERE";
+   ```
 
-4. You can also change the mp3 song links at line 345.
+4. Customize the music playlist (lines 345-370 in `index.html`).
 
-5. Then you're done, just host on any domain and its working, you can change the code to anything you'd like just reference back to me and this project.
+5. Deploy to any static hosting service (GitHub Pages, Vercel, Netlify, etc.).
+
+## Customization
+- Edit `playlist` array in JavaScript to change music tracks  
+- Modify CSS variables in `style` tag for color schemes  
+- Adjust animation parameters for stars in JavaScript  
