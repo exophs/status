@@ -340,7 +340,6 @@
     </div>
 
     <script>
-      // Music playlist
       const playlist = [
         {
           title: "Wonder If U Care - flyingfish",
@@ -378,12 +377,10 @@
       const nowPlayingElement = document.getElementById("now-playing");
       const nowPlayingText = document.getElementById("now-playing-text");
 
-      // Set initial volume
       backgroundMusic.volume = volumeSlider.value;
       let isPlaying = false;
       let currentTrackIndex = 0;
 
-      // Shuffle playlist (Fisher-Yates algorithm)
       function shufflePlaylist() {
         for (let i = playlist.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
@@ -391,7 +388,6 @@
         }
       }
 
-      // Load a track
       function loadTrack(index) {
         const track = playlist[index];
         backgroundMusic.src = track.url;
@@ -404,17 +400,14 @@
         }
       }
 
-      // Play next track
       function playNextTrack() {
         currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
         loadTrack(currentTrackIndex);
       }
 
-      // Initialize playlist
       shufflePlaylist();
       loadTrack(currentTrackIndex);
-      
-      // Show now playing info when music starts
+
       backgroundMusic.addEventListener('play', () => {
         nowPlayingElement.style.display = 'block';
         setTimeout(() => {
@@ -422,7 +415,6 @@
         }, 3000);
       });
 
-      // When a track ends, play the next one
       backgroundMusic.addEventListener('ended', playNextTrack);
 
       const toggleMusic = () => {
@@ -445,11 +437,9 @@
         isPlaying = !isPlaying;
       };
 
-      // Update volume when slider changes
       volumeSlider.addEventListener("input", (e) => {
         backgroundMusic.volume = e.target.value;
-        
-        // Update button icon based on volume level
+
         if (e.target.value == 0) {
           soundButton.innerHTML = '<i class="fas fa-volume-mute"></i>';
         } else if (e.target.value < 0.5) {
@@ -483,7 +473,6 @@
       let isTabVisible = true;
 
       const connectWebSocket = () => {
-        // Only connect if we're not already connected and tab is visible
         if (socket && (socket.readyState === WebSocket.OPEN || socket.readyState === WebSocket.CONNECTING)) {
           return;
         }
@@ -500,7 +489,6 @@
             })
           );
 
-          // Only update loading text if we don't have cached data
           if (!localStorage.getItem("lastPresence")) {
             document.getElementById("discord-status").innerText =
               "Loading Discord status...";
@@ -521,7 +509,6 @@
         });
 
         socket.addEventListener("close", () => {
-          // Only show reconnecting message if tab is visible
           if (isTabVisible) {
             document.getElementById("discord-status").innerText = "Connection closed. Reconnecting...";
             document.getElementById("custom-status").innerText = "Connection closed. Reconnecting...";
@@ -532,7 +519,6 @@
         });
 
         socket.addEventListener("error", (error) => {
-          // Only show error message if tab is visible
           if (isTabVisible) {
             document.getElementById("discord-status").innerText =
               "Connection error. Reconnecting...";
@@ -547,7 +533,6 @@
       };
 
       const updatePresenceUI = (presence) => {
-        // Only update UI if tab is visible
         if (!isTabVisible) return;
 
         const profilePicture = `https://cdn.discordapp.com/avatars/${DISCORD_USER_ID}/${presence.discord_user.avatar}.png?size=256`;
@@ -647,7 +632,6 @@
       };
 
       const updateProgress = (startTime, endTime) => {
-        // Only update progress if tab is visible
         if (!isTabVisible) {
           if (progressAnimationFrame) {
             cancelAnimationFrame(progressAnimationFrame);
@@ -702,20 +686,16 @@
         });
       };
 
-      // Track tab visibility
       document.addEventListener("visibilitychange", () => {
         isTabVisible = !document.hidden;
         
         if (isTabVisible) {
-          // When tab becomes visible, update from cached data first
           loadLastPresence();
           
-          // Then reconnect WebSocket if needed
           if (!socket || socket.readyState === WebSocket.CLOSED || socket.readyState === WebSocket.CLOSING) {
             connectWebSocket();
           }
           
-          // Restart progress animation if needed
           const lastPresence = localStorage.getItem("lastPresence");
           if (lastPresence) {
             const presence = JSON.parse(lastPresence);
@@ -724,14 +704,12 @@
             }
           }
         } else {
-          // When tab becomes hidden, stop progress animation
           if (progressAnimationFrame) {
             cancelAnimationFrame(progressAnimationFrame);
           }
         }
       });
 
-      // Initial load
       loadLastPresence();
       connectWebSocket();
     </script>
