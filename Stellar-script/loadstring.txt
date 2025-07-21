@@ -1,0 +1,1 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/exophs/Stellar/refs/heads/main/Stellar-script/Stellar.lua"))()
