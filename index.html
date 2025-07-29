@@ -425,21 +425,6 @@
         });
 
         soundButton.addEventListener("click", toggleMusic);
-
-        // Initial click handler for audio context
-        document.addEventListener("click", () => {
-          if (!isPlaying) {
-            backgroundMusic.play()
-              .then(() => {
-                isPlaying = true;
-                soundButton.innerHTML = '<i class="fas fa-volume-up"></i>';
-                nowPlayingElement.style.display = 'block';
-              })
-              .catch((error) => {
-                console.error("Error playing audio:", error);
-              });
-          }
-        }, { once: true });
       };
 
       // Update volume icon based on volume level
